@@ -41,7 +41,8 @@ resource "aws_lambda_function" "lambda_test" {
   s3_key           = var.s3_key
   runtime          = var.lambda_runtime
   timeout          = var.lambda_timeout 
-  depends_on       = [ aws_iam_role.iam_lambda_test ]
+  # depends_on       = [ aws_iam_role.iam_lambda_test ]
+  depends_on = [aws_iam_role.iam_lambda_test, var.s3_object_arn_for_dependency]
 }
 
 #Lambda SQS Trigger
