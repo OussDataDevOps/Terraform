@@ -2,6 +2,7 @@ include:
   - template: Terraform/Base.latest.gitlab-ci.yml
 
 stages:
+  - unlock_state
   - destroy
   - validate
   - build
@@ -22,10 +23,15 @@ before_script:
   # - terraform init -backend-config="bucket=$TF_BACKEND_BUCKET" -backend-config="key=$TF_BACKEND_KEY" -backend-config="region=$TF_BACKEND_REGION" -backend-config="dynamodb_table=$TF_BACKEND_DYNAMODB_TABLE"
   - terraform init -reconfigure -backend-config="bucket=$TF_BACKEND_BUCKET" -backend-config="key=$TF_BACKEND_KEY" -backend-config="region=$TF_BACKEND_REGION" -backend-config="dynamodb_table=$TF_BACKEND_DYNAMODB_TABLE"
 
+unlock_state:
+  stage: destroy
+  script:
+    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
+  when: manual
+
 destroy:
   stage: destroy
   script:
-    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
     - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
   when: manual
   environment:
@@ -38,13 +44,13 @@ validate:
   stage: validate
   script:
     - terraform validate
+  when: manual  
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
 build:
   stage: build
   script:
-    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
     - terraform plan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
