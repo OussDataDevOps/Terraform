@@ -16,10 +16,6 @@ Ouvrez le fichier `backend.tf` dans le dossier du projet et remplacez les valeur
 
 ```hcl
 terraform {
-  backend "s3" {
-    bucket         = "nom-de-votre-bucket"
-    key            = "chemin/vers/terraform.tfstate"
-    region         = "votre-region-aws"
-  }
+  backend "s3" {}
 }
 ```
