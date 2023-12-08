@@ -26,7 +26,8 @@ before_script:
 destroy:
   stage: destroy
   script:
-    - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    # - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
   when: manual
   environment:
     name: production
@@ -45,14 +46,16 @@ validate:
 build:
   stage: build
   script:
-    - terraform plan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    # - terraform plan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
 deploy:
   stage: deploy
   script:
-    - terraform apply -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    # - terraform apply -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
   when: manual
   environment:
     name: production
