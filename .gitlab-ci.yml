@@ -2,10 +2,10 @@ include:
   - template: Terraform/Base.latest.gitlab-ci.yml
 
 stages:
+  - destroy
   - validate
   - build
   - deploy
-  - destroy
 
 variables:
   TF_ROOT: "ressources/"
@@ -16,6 +16,19 @@ variables:
 before_script:
   - cd ${TF_ROOT}
   - terraform init
+
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY"
+  when: manual
+  environment:
+    name: production
+    action: stop
+  only:
+    - main
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"'
 
 validate:
   stage: validate
@@ -40,16 +53,3 @@ deploy:
     action: start
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
-
-destroy:
-  stage: destroy
-  script:
-    - terraform init -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY"
-    - terraform destroy -auto-approve
-  when: manual
-  environment:
-    name: production
-    action: stop
-  only:
-    - main
-
