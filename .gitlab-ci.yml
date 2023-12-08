@@ -52,3 +52,11 @@ destroy:
   when: manual
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+
+# Assurez-vous que les stages pour SAST-IaC sont définis ou retirez cette partie si elle n'est pas nécessaire
+iac-sast:
+  stage: test # Modifier 'test' au stage approprié si nécessaire
+  script:
+    - echo "SAST-IaC job"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
