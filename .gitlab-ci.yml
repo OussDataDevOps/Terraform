@@ -21,13 +21,13 @@ before_script:
   - cd ${TF_ROOT}
   # - terraform init -backend-config="bucket=$TF_BACKEND_BUCKET" -backend-config="key=$TF_BACKEND_KEY" -backend-config="region=$TF_BACKEND_REGION" -backend-config="dynamodb_table=$TF_BACKEND_DYNAMODB_TABLE"
   # - terraform init -reconfigure -backend-config="bucket=$TF_BACKEND_BUCKET" -backend-config="key=$TF_BACKEND_KEY" -backend-config="region=$TF_BACKEND_REGION" -backend-config="dynamodb_table=$TF_BACKEND_DYNAMODB_TABLE"
-  - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
+  - terraform force-unlock -force 2f360297-f17d-c28c-ea01-77b23fe378aa
 
 destroy:
   stage: destroy
   script:
     # - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
-    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
+    - terraform force-unlock -force 2f360297-f17d-c28c-ea01-77b23fe378aa
   when: manual
   environment:
     name: production
@@ -47,7 +47,7 @@ build:
   stage: build
   script:
     # - terraform plan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
-    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
+    - terraform force-unlock -force 2f360297-f17d-c28c-ea01-77b23fe378aa
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
@@ -55,7 +55,7 @@ deploy:
   stage: deploy
   script:
     # - terraform apply -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
-    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
+    - terraform force-unlock -force 2f360297-f17d-c28c-ea01-77b23fe378aa
   when: manual
   environment:
     name: production
