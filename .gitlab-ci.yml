@@ -25,8 +25,8 @@ before_script:
 destroy:
   stage: destroy
   script:
-    # - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
-    - terraform destroy -auto-approve -lock=false -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
   when: manual
   environment:
     name: production
