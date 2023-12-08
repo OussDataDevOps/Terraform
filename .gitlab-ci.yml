@@ -1,0 +1,65 @@
+include:
+  - template: Terraform/Base.gitlab-ci.yml
+  - template: Jobs/SAST-IaC.gitlab-ci.yml
+
+stages:
+  - validate
+  - test
+  - build
+  - deploy
+  - cleanup
+  - destroy
+
+variables:
+  TF_ROOT: "ressources/"
+  AWS_DEFAULT_REGION: "us-east-2"
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+
+before_script:
+  - cd ${TF_ROOT}
+  - terraform init
+
+fmt:
+  extends: .terraform:fmt
+  needs: []
+
+validate:
+  extends: .terraform:validate
+  needs: []
+
+build:
+  extends: .terraform:build
+  environment:
+    name: $TF_STATE_NAME
+    action: prepare
+
+deploy:
+  extends: .terraform:deploy
+  dependencies:
+    - build
+  environment:
+    name: $TF_STATE_NAME
+    action: start
+  only:
+    - main
+
+cleanup:
+  extends: .terraform:cleanup
+  dependencies:
+    - deploy
+  when: manual
+  environment:
+    name: $TF_STATE_NAME
+    action: stop
+
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  when: manual
+  environment:
+    name: $TF_STATE_NAME
+    action: cleanup
+  only:
+    - main
