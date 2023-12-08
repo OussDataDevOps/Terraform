@@ -19,8 +19,7 @@ variables:
 
 before_script:
   - cd ${TF_ROOT}
-  # - terraform init -backend-config="bucket=$TF_BACKEND_BUCKET" -backend-config="key=$TF_BACKEND_KEY" -backend-config="region=$TF_BACKEND_REGION" -backend-config="dynamodb_table=$TF_BACKEND_DYNAMODB_TABLE"
-  - terraform init -reconfigure -backend-config="bucket=$TF_BACKEND_BUCKET" -backend-config="key=$TF_BACKEND_KEY" -backend-config="region=$TF_BACKEND_REGION" -backend-config="dynamodb_table=$TF_BACKEND_DYNAMODB_TABLE"
+  - terraform init -backend-config="bucket=$TF_BACKEND_BUCKET" -backend-config="key=$TF_BACKEND_KEY" -backend-config="region=$TF_BACKEND_REGION" -backend-config="dynamodb_table=$TF_BACKEND_DYNAMODB_TABLE"
 
 destroy:
   stage: destroy
