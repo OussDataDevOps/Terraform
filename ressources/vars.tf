@@ -11,7 +11,6 @@ variable "env" {
 variable "region" {
   description = "AWS Region"
   type        = string
-  default     = "us-west-2"
 }
 
 variable "access_key" {
