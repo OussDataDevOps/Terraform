@@ -27,14 +27,14 @@ validate:
 build:
   stage: build
   script:
-    - terraform plan -out=tfplan
+    - terraform plan -out=tfplan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
 deploy:
   stage: deploy
   script:
-    - terraform apply tfplan
+    - terraform apply tfplan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY"
   environment:
     name: production
     action: start
@@ -44,7 +44,7 @@ deploy:
 destroy:
   stage: destroy
   script:
-    - terraform destroy -auto-approve
+    - terraform destroy -auto-approve -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY"
   environment:
     name: production
     action: stop
