@@ -1,10 +1,9 @@
 include:
-  - template: Terraform/Base.gitlab-ci.yml
-  - template: Jobs/SAST-IaC.gitlab-ci.yml
+  - template: Terraform/Base.latest.gitlab-ci.yml
+  - template: Jobs/SAST-IaC.latest.gitlab-ci.yml
 
 stages:
   - validate
-  - test
   - build
   - deploy
   - destroy
@@ -19,36 +18,37 @@ before_script:
   - cd ${TF_ROOT}
   - terraform init
 
-fmt:
-  extends: .terraform:fmt
-  needs: []
-
 validate:
-  extends: .terraform:validate
-  needs: []
+  stage: validate
+  script:
+    - terraform validate
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
 
 build:
-  extends: .terraform:build
-  environment:
-    name: $TF_STATE_NAME
-    action: prepare
+  stage: build
+  script:
+    - terraform plan -out=tfplan
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
 
 deploy:
-  extends: .terraform:deploy
-  dependencies:
-    - build
+  stage: deploy
+  script:
+    - terraform apply tfplan
   environment:
-    name: $TF_STATE_NAME
+    name: production
     action: start
-  only:
-    - main
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
 destroy:
   stage: destroy
   script:
     - terraform destroy -auto-approve
-  when: manual
   environment:
-    name: $TF_STATE_NAME
-  only:
-    - main
+    name: production
+    action: stop
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
