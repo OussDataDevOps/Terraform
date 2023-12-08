@@ -1,0 +1,41 @@
+# Fichiers de configuration locaux
+*.tfvars
+*.tfvars.json
+
+# Fichiers d'état locaux
+*.tfstate
+*.tfstate.*
+
+# Fichiers de plan
+*.tfplan
+*.tfplan.*
+
+# Fichiers de log
+terraform.log
+
+# Fichiers de sauvegarde
+*.backup
+
+# Fichiers de configuration de l'environnement 
+.env
+.env.*
+
+# Dossiers ignorés
+.terraform/
+**/.terraform/*
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Crash log files
+crash.log
+
+# VSCode
+.vscode
+
+# Fichiers secrets (ajoutez vos propres règles ici)
+
