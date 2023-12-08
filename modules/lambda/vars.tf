@@ -41,3 +41,8 @@ variable lambda_timeout{
 variable "event_source_arn" {
   description = "ARN de la source d'événement (SQS) pour le déclenchement de la fonction Lambda"
 }
+
+variable "s3_object_arn_for_dependency" {
+  description = "ARN de l'objet S3 pour créer une dépendance"
+  type        = string
+}
