@@ -69,10 +69,10 @@ module "ec2_ssm_iam" {
 }
 
 # Ce module crée un rôle IAM avec des politiques permettant l'accès aux services S3 depuis les instances EC2 via le service AWS Systems Manager (SSM).
-# module "ssm_iam_s3" {
-#   source                        = "../modules/ssm_iam_s3"
-#   s3_bucket_arn                 = module.s3.bucket_arn
-# }
+module "ssm_iam_s3" {
+  source                        = "../modules/ssm_iam_s3"
+  s3_bucket_arn                 = module.s3.bucket_arn
+}
 
 # Module pour créer un bucket S3 et y télécharger un fichier ZIP contenant le code d'une fonction Lambda
 module "s3" {
