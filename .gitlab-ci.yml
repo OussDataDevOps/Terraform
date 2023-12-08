@@ -28,6 +28,10 @@ build:
   stage: build
   script:
     - terraform plan -out=tfplan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY"
+  artifacts:
+    paths:
+      - tfplan
+    expire_in: 10 mins
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
