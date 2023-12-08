@@ -106,4 +106,5 @@ module "lambda_module" {
   lambda_runtime                = "python3.9"
   lambda_timeout                = 180
   event_source_arn              = module.sqs.queue_arn
+  s3_object_arn_for_dependency  = module.s3.lambda_zip_s3_object_arn
 }
