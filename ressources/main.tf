@@ -102,8 +102,7 @@ module "lambda_module" {
   handler                       = "lambda_function.lambda_handler"
   lambda_memory_size            = 128
   s3_bucket                     = "bucket-lambda-sqs-tada-exo"
-  # s3_key                        = "lambda_function.zip"
-  s3_key                        = "lambda_function"
+  s3_key                        = "lambda_function.zip"
   lambda_runtime                = "python3.9"
   lambda_timeout                = 180
   event_source_arn              = module.sqs.queue_arn
