@@ -7,7 +7,6 @@ stages:
   - test
   - build
   - deploy
-  - cleanup
   - destroy
 
 variables:
@@ -43,15 +42,6 @@ deploy:
     action: start
   only:
     - main
-
-cleanup:
-  extends: .terraform:cleanup
-  dependencies:
-    - deploy
-  when: manual
-  environment:
-    name: $TF_STATE_NAME
-    action: stop
 
 destroy:
   stage: destroy
