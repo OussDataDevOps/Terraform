@@ -44,7 +44,7 @@ validate:
 build:
   stage: build
   script:
-    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
+    - terraform force-unlock 2f360297-f17d-c28c-ea01-77b23fe378aa -force
     - terraform plan -var "access_key=$AWS_ACCESS_KEY_ID" -var "secret_key=$AWS_SECRET_ACCESS_KEY" -var "region=$AWS_DEFAULT_REGION"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
