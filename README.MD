@@ -1,5 +1,7 @@
 # Tada - Guide d'Utilisation - Infrastructure AWS
 
+![](images\tada.drawio.png)
+
 ## Description Générale
 Ce projet Terraform est conçu pour créer et gérer une infrastructure AWS complète comprenant un VPC, des groupes de sécurité, un équilibreur de charge (Load Balancer), un groupe d'AutoScaling, des rôles IAM pour EC2 et S3, un bucket S3, une file d'attente SQS et une fonction Lambda. Le projet utilise une série de modules Terraform pour modulariser et faciliter la gestion de l'infrastructure.
 
