@@ -37,3 +37,8 @@ variable "lb_target_group_arn" {
   description = "L'ARN (Amazon Resource Name) du groupe cible associé au Load Balancer."
   type        = string
 }
+
+variable "tag_asg" {
+  description = "The tag for the ASG EC2"
+  type        = string
+}
