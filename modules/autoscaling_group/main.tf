@@ -19,7 +19,8 @@ resource "aws_autoscaling_group" "main" {
 
   tag {
     key                 = "Name"
-    value               = "ASG-Instance"
+    # value               = "ASG-Instance"
+    value = "${var.tag_asg}-ASG-Instance-${count.index}"
     propagate_at_launch = true
   }
 }
