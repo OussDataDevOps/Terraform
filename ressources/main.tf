@@ -69,43 +69,43 @@ module "ec2_ssm_iam" {
   source                        = "../modules/ec2_ssm_iam"
 }
 
-# # Ce module crée un rôle IAM avec des politiques permettant l'accès aux services S3 depuis les instances EC2 via le service AWS Systems Manager (SSM).
-# module "ssm_iam_s3" {
-#   source                        = "../modules/ssm_iam_s3"
-#   s3_bucket_arn                 = module.s3.bucket_arn
-# }
+# Ce module crée un rôle IAM avec des politiques permettant l'accès aux services S3 depuis les instances EC2 via le service AWS Systems Manager (SSM).
+module "ssm_iam_s3" {
+  source                        = "../modules/ssm_iam_s3"
+  s3_bucket_arn                 = module.s3.bucket_arn
+}
 
-# # Module pour créer un bucket S3 et y télécharger un fichier ZIP contenant le code d'une fonction Lambda
-# module "s3" {
-#   source                        = "../modules/s3"
-#   bucket_name                   = "bucket-lambda-sqs-tada-exo"
-#   type_archive_file             = "zip"
-#   key_s3_bucket_object          = "lambda_function.zip"
+# Module pour créer un bucket S3 et y télécharger un fichier ZIP contenant le code d'une fonction Lambda
+module "s3" {
+  source                        = "../modules/s3"
+  bucket_name                   = "bucket-lambda-sqs-tada-exo"
+  type_archive_file             = "zip"
+  key_s3_bucket_object          = "lambda_function.zip"
 
-# }
+}
 
-# # Ce module est utilisé pour créer une file d'attente SQS
-# module "sqs" {
-#   source                        = "../modules/sqs"
-#   sqs_name                      = "${local.resource_name_prefix}-sqs-queue"
-#   sqs_delayseconds              = 5
-#   max_message_size              = 2048
-#   message_retention_seconds     = 86000
-#   visibility_timeout_seconds    = 200
-#   receive_wait_time_seconds     = 10
-# }
+# Ce module est utilisé pour créer une file d'attente SQS
+module "sqs" {
+  source                        = "../modules/sqs"
+  sqs_name                      = "${local.resource_name_prefix}-sqs-queue"
+  sqs_delayseconds              = 5
+  max_message_size              = 2048
+  message_retention_seconds     = 86000
+  visibility_timeout_seconds    = 200
+  receive_wait_time_seconds     = 10
+}
 
-# # Ce module est conçu pour créer et configurer une fonction AWS Lambda avec des déclencheurs SQS et une intégration S3.
-# module "lambda_module" {
-#   source                        = "../modules/lambda"
-#   lambda_name                   = "${local.resource_name_prefix}-lambda"
-#   lambda_description            = "Lambda function which calls code from S3 and invokes when S3 queue recieves a message"
-#   handler                       = "lambda_function.lambda_handler"
-#   lambda_memory_size            = 128
-#   s3_bucket                     = "bucket-lambda-sqs-tada-exo"
-#   s3_key                        = "lambda_function.zip"
-#   lambda_runtime                = "python3.9"
-#   lambda_timeout                = 180
-#   event_source_arn              = module.sqs.queue_arn
-#   s3_object_arn_for_dependency  = module.s3.lambda_zip_s3_object_arn
-# }
+# Ce module est conçu pour créer et configurer une fonction AWS Lambda avec des déclencheurs SQS et une intégration S3.
+module "lambda_module" {
+  source                        = "../modules/lambda"
+  lambda_name                   = "${local.resource_name_prefix}-lambda"
+  lambda_description            = "Lambda function which calls code from S3 and invokes when S3 queue recieves a message"
+  handler                       = "lambda_function.lambda_handler"
+  lambda_memory_size            = 128
+  s3_bucket                     = "bucket-lambda-sqs-tada-exo"
+  s3_key                        = "lambda_function.zip"
+  lambda_runtime                = "python3.9"
+  lambda_timeout                = 180
+  event_source_arn              = module.sqs.queue_arn
+  s3_object_arn_for_dependency  = module.s3.lambda_zip_s3_object_arn
+}

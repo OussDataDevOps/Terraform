@@ -13,6 +13,7 @@ output "private_subnets" {
 
 output "load_balancer_dns_name" {
   value = module.load_balancer.lb_dns_name
+  sensitive = false
 }
 
 output "autoscaling_group_name" {
