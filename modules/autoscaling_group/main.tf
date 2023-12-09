@@ -11,16 +11,16 @@ resource "aws_launch_configuration" "main" {
 }
 
 resource "aws_autoscaling_group" "main" {
+  name                  = "${var.tag_asg}-ASG-Instance-${count.index}"
   launch_configuration = aws_launch_configuration.main.id
   vpc_zone_identifier  = var.subnet_ids
   min_size             = var.min_size
   max_size             = var.max_size
   target_group_arns    = [var.lb_target_group_arn]
 
-  tag {
-    key                 = "Name"
-    # value               = "ASG-Instance"
-    value = "${var.tag_asg}-${count.index}"
-    propagate_at_launch = true
-  }
+  # tag {
+  #   key                 = "Name"
+  #   value               = "ASG-Instance"
+  #   propagate_at_launch = true
+  # }
 }
