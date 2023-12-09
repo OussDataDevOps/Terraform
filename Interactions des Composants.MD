@@ -5,6 +5,7 @@ Le VPC est le réseau virtuel isolé dans AWS. Il contient les éléments suivan
 - **Public Subnet**: Sous-réseau où les instances peuvent être accessibles d'Internet.
 - **Private Subnet**: Sous-réseau protégé qui n'est pas accessible directement depuis Internet.
 - **Internet Gateway**: Fournit une route pour le trafic entre le VPC et Internet.
+- **NAT Gateway**: Permet aux instances dans les sous-réseaux privés d'accéder à Internet.
 - **Route Table**: Détermine où le trafic réseau est dirigé.
 - **SSM Endpoints**: Endpoints de service pour le Systems Manager permettant la gestion des instances sans nécessiter un accès Internet direct.
 
