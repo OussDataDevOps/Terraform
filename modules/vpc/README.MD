@@ -1,12 +1,14 @@
 # Module VPC Terraform
 
 ## Description
-Ce module Terraform est conçu pour créer un Virtual Private Cloud (VPC) . Il inclut la création de sous-réseaux publics et privés, d'un Internet Gateway, de tables de routage, et de différents endpoints VPC pour les services AWS comme SSM, EC2 Messages, et S3.
+Ce module Terraform est conçu pour créer un Virtual Private Cloud (VPC), offrant une infrastructure réseau bien structurée et sécurisée. Il gère la création de sous-réseaux publics et privés, d'un Internet Gateway, de NAT Gateway, de tables de routage, et de différents endpoints VPC pour des services AWS comme SSM, EC2 Messages, et S3, assurant une connectivité optimisée et sécurisée pour vos ressources AWS.
 
 ## Ressources Créées
 - **VPC (`aws_vpc`)**: Crée le VPC avec les paramètres réseau spécifiés.
 - **Subnets Publics et Privés (`aws_subnet`)**: Crée des sous-réseaux publics et privés dans les zones de disponibilité disponibles.
 - **Internet Gateway (`aws_internet_gateway`)**: Fournit un accès à Internet pour les sous-réseaux publics.
+- **NAT Gateway (`aws_nat_gateway`)**: Permet aux instances dans les sous-réseaux privés d'accéder à Internet.
+- **Elastic IP (`aws_eip`)**: Permet aux instances dans les sous-réseaux privés d'accéder à Internet.
 - **Route Tables (`aws_route_table`)**: Tables de routage pour gérer le trafic réseau dans le VPC.
 - **VPC Endpoints (`aws_vpc_endpoint`)**: Endpoints pour les services AWS SSM, EC2 Messages, et S3 pour une connectivité privée au sein du VPC.
 
