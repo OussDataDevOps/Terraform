@@ -127,11 +127,11 @@ resource "aws_vpc_endpoint" "s3" {
 #   }
 # }
 
-resource "aws_route_table_association" "private" {
-  count          = length(aws_subnet.private)
-  subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private_route_table.id
-}
+# resource "aws_route_table_association" "private" {
+#   count          = length(aws_subnet.private)
+#   subnet_id      = aws_subnet.private[count.index].id
+#   route_table_id = aws_route_table.private_route_table.id
+# }
 
 # Security group pour les endpoints
 resource "aws_security_group" "ssm_endpoint_sg" {
