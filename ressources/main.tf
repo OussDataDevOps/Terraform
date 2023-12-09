@@ -60,7 +60,7 @@ module "autoscaling_group" {
   max_size                      = 6
   iam_instance_profile_name     = module.ec2_ssm_iam.instance_profile_name
   lb_target_group_arn           = module.load_balancer.lb_target_group_arn
-  tag_asg                       = "${local.resource_name_prefix}-ASG-Instance"
+  tag_asg                       = local.resource_name_prefix
 }
 
 # Module IAM EC2 SSM
